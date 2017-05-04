@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,13 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e("TAG", "asdfasdfsad");
-
-        List<Player> viewModels = new ArrayList<>();
-        viewModels.add(new Player("One", 1));
-        viewModels.add(new Player("Two", 2));
-        viewModels.add(new Player("Three", 3));
-        viewModels.add(new Player("Four", 4));
+        List<Model> viewModels = new ArrayList<>();
+        viewModels.add(new Model("One", 1));
+        viewModels.add(new Model("Two", 2));
+        viewModels.add(new Model("Three", 3));
+        viewModels.add(new Model("Four", 4));
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -44,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getApplicationContext(), mRecyclerView, new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position, boolean b) {
+                TextView textView = (TextView) view.findViewById(R.id.textview);
+                Log.e("TAG", textView.getText().toString());
                 Log.e("TAG", String.valueOf(position));
             }
 
@@ -57,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
 class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private List<Player> items;
+    private List<Model> items;
     private int itemLayout;
 
-    public MyRecyclerAdapter(List<Player> items, int itemLayout) {
+    public MyRecyclerAdapter(List<Model> items, int itemLayout) {
         this.items = items;
         this.itemLayout = itemLayout;
     }
@@ -73,7 +72,7 @@ class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Player item = items.get(position);
+        Model item = items.get(position);
         holder.text.setText(item.getName());
         holder.textview.setText("" + item.getNumber());
     }
@@ -95,11 +94,11 @@ class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolde
     }
 }
 
-class Player {
+class Model {
     private int number;
     private String name;
 
-    Player(String name, int number) {
+    Model(String name, int number) {
         this.name = name;
         this.number = number;
     }
